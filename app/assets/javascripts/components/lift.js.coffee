@@ -5,4 +5,4 @@
 			React.DOM.td null, @props.lift.liftname
 			React.DOM.td null, @props.lift.weightlifted
 			React.DOM.td null, @props.lift.repsperformed
-			React.DOM.td null, @props.lift.onerm
+      React.DOM.td null, @props.lift.onerm
