@@ -3,9 +3,9 @@
     date: ''
     liftname: ''
     ismetric: false
-    weightslifted: ''
+    weightlifted: ''
     repsperformed: ''
-    onerm: ''
+    onerm: '0'
     coefficients: {
       1: 1, 2: .943, 3: .906, 4: .881, 5: .851,
       6: .831, 7: .807, 8: .786, 9: .765, 10: .744
@@ -13,16 +13,16 @@
   handleValueChange: (e) ->
     valueName = e.target.name
     @setState "#{ valueName }": e.target.value
+  toggleUnit: (e) ->
+    e.preventDefault()
+    @setState ismetric: !@state.ismetric
   calculateOneRm: ->
     if @state.weightlifted and @state.repsperformed
-      if @state.repsperformed < 11
         @state.onerm = @state.weightlifted / @state.coefficients[@state.repsperformed]
-      else
-        'Reps must be less than 10'
     else
       0
   valid: ->
-    @state.date && @state.liftname && @state.ismetric && @state.weightlifted && @state.repsperformed && @state.onerm
+    @state.date && @state.liftname && @state.weightlifted && @state.repsperformed && @state.onerm
   handleSubmit: (e) ->
     e.preventDefault()
     $.post '', { lift: @state }, (data) =>
@@ -54,15 +54,6 @@
       React.DOM.div
         className: 'form-group'
         React.DOM.input
-          type: 'boolean'
-          className: 'form-control'
-          placeholder: 'ismetric'
-          name: 'ismetric'
-          value: @state.ismetric
-          onChange: @handleValueChange
-      React.DOM.div
-        className: 'form-group'
-        React.DOM.input
           type: 'number'
           className: 'form-control'
           placeholder: 'weightlifted'
@@ -73,11 +64,17 @@
         className: 'form-group'
         React.DOM.input
           type: 'number'
+          min: 1
+          max: 10
           className: 'form-control'
           placeholder: 'repsperformed'
           name: 'repsperformed'
           value: @state.repsperformed
           onChange: @handleValueChange
+      React.DOM.a
+        className: 'btn btn-primary'
+        onClick: @toggleUnit
+        'Metric = ' + @state.ismetric.toString()
       React.DOM.button
         type: 'submit'
         className: 'btn btn-primary'
