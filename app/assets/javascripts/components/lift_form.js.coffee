@@ -6,9 +6,21 @@
     weightslifted: ''
     repsperformed: ''
     onerm: ''
+    coefficients: {
+      1: 1, 2: .943, 3: .906, 4: .881, 5: .851,
+      6: .831, 7: .807, 8: .786, 9: .765, 10: .744
+    }
   handleValueChange: (e) ->
     valueName = e.target.name
     @setState "#{ valueName }": e.target.value
+  calculateOneRm: ->
+    if @state.weightlifted and @state.repsperformed
+      if @state.repsperformed < 11
+        @state.onerm = @state.weightlifted / @state.coefficients[@state.repsperformed]
+      else
+        'Reps must be less than 10'
+    else
+      0
   valid: ->
     @state.date && @state.liftname && @state.ismetric && @state.weightlifted && @state.repsperformed && @state.onerm
   handleSubmit: (e) ->
@@ -66,17 +78,9 @@
           name: 'repsperformed'
           value: @state.repsperformed
           onChange: @handleValueChange
-      React.DOM.div
-        className: 'form-group'
-        React.DOM.input
-          type: 'number'
-          className: 'form-control'
-          placeholder: 'onerm'
-          name: 'onerm'
-          value: @state.onerm
-          onChange: @handleValueChange
       React.DOM.button
         type: 'submit'
         className: 'btn btn-primary'
         disabled: !@valid()
         'Create Lift'
+      React.createElement OneRmBox, onerm: @calculateOneRm()
