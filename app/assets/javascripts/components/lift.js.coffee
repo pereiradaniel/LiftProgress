@@ -12,6 +12,24 @@
       dataType: 'JSON'
       success: () =>
         @props.handleDeleteLift @props.lift
+  handleEdit: (e) ->
+    e.preventDefault()
+    data =
+      date: React.findDOMNode(@refs.date).value
+      liftname: React.findDOMNode(@refs.liftname).value
+      weightlifted: React.findDOMNode(@refs.weightlifted).value
+      ismetric: React.findDOMNode(@refs.ismetric).value
+      repsperformed: React.findDOMNode(@refs.repsperformed).value
+      onerm: React.findDOMNode(@refs.onerm).value
+    $.ajax
+      method: 'PUT'
+      url: "/lifts/#{ @props.lift.id }"
+      dataType: 'JSON'
+      data:
+        lift: data
+      success: (data) =>
+        @setState edit: false
+        @props.handleEditLift @props.lift, data
   liftRow: ->
     React.DOM.tr null,
       React.DOM.td null, @props.lift.date
