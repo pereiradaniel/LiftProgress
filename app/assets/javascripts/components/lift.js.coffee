@@ -6,6 +6,7 @@ coefficients = {
   getInitialState: ->
     edit: false
     onerm: @props.lift.onerm
+    ismetric: @props.lift.ismetric
   handleToggle: (e) ->
     e.preventDefault()
     @setState edit: !@state.edit
@@ -23,7 +24,7 @@ coefficients = {
       date: ReactDOM.findDOMNode(@refs.date).value
       liftname: ReactDOM.findDOMNode(@refs.liftname).value
       weightlifted: ReactDOM.findDOMNode(@refs.weightlifted).value
-      ismetric: ReactDOM.findDOMNode(@refs.ismetric).value
+      ismetric: @state.ismetric
       repsperformed: ReactDOM.findDOMNode(@refs.repsperformed).value
       onerm: @state.onerm
     $.ajax
@@ -39,6 +40,9 @@ coefficients = {
     @setState onerm: @getOneRm( ReactDOM.findDOMNode(@refs.weightlifted).value, ReactDOM.findDOMNode(@refs.repsperformed).value)
   getOneRm: (weight, reps) ->
     weight / coefficients[reps]
+  toggleUnit: (e) ->
+    e.preventDefault()
+    @setState ismetric: !@state.ismetric
   liftRow: ->
     React.DOM.tr null,
       React.DOM.td null, @props.lift.date
@@ -71,11 +75,10 @@ coefficients = {
           defaultValue: @props.lift.liftname
           ref: 'liftname'
       React.DOM.td null,
-        React.DOM.input
-          className: 'form-control'
-          type: 'boolean'
-          defaultValue: @props.lift.ismetric
-          ref: 'ismetric'
+        React.DOM.a
+          className: 'btn btn-primary'
+          onClick: @toggleUnit
+          'Metric = ' + @state.ismetric.toString()
       React.DOM.td null,
         React.DOM.input
           className: 'form-control'
