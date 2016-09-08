@@ -52,11 +52,11 @@ coefficients = {
       React.DOM.td null, @props.lift.repsperformed
       React.DOM.td null, @props.lift.onerm
       React.DOM.td null,
-        React.DOM.a
+        React.DOM.button
           className: 'btn btn-primary'
           onClick: @handleToggle
           'Edit'
-        React.DOM.a
+        React.DOM.button
           className: 'btn btn-danger'
           onClick: @handleDelete
           'Delete'
@@ -75,7 +75,7 @@ coefficients = {
           defaultValue: @props.lift.liftname
           ref: 'liftname'
       React.DOM.td null,
-        React.DOM.a
+        React.DOM.button
           className: 'btn btn-primary'
           onClick: @toggleUnit
           'Metric = ' + @state.ismetric.toString()
@@ -98,11 +98,11 @@ coefficients = {
       React.DOM.td null,
         @state.onerm
       React.DOM.td null,
-        React.DOM.a
+        React.DOM.button
           className: 'btn btn-primary'
           onClick: @handleEdit
           'Update'
-        React.DOM.a
+        React.DOM.button
           className: 'btn btn-danger'
           onClick: @handleToggle
           'Cancel'
