@@ -1,6 +1,11 @@
+coefficients = {
+  1: 1, 2: .943, 3: .906, 4: .881, 5: .851,
+  6: .831, 7: .807, 8: .786, 9: .765, 10: .744
+}
 @Lift = React.createClass
   getInitialState: ->
     edit: false
+    onerm: @props.lift.onerm
   handleToggle: (e) ->
     e.preventDefault()
     @setState edit: !@state.edit
@@ -20,7 +25,7 @@
       weightlifted: ReactDOM.findDOMNode(@refs.weightlifted).value
       ismetric: ReactDOM.findDOMNode(@refs.ismetric).value
       repsperformed: ReactDOM.findDOMNode(@refs.repsperformed).value
-      onerm: ReactDOM.findDOMNode(@refs.onerm).value
+      onerm: @state.onerm
     $.ajax
       method: 'PUT'
       url: "/lifts/#{ @props.lift.id }"
@@ -30,12 +35,16 @@
       success: (data) =>
         @setState edit: false
         @props.handleEditLift @props.lift, data
+  reCalculateOneRm: ->
+    @setState onerm: @getOneRm( ReactDOM.findDOMNode(@refs.weightlifted).value, ReactDOM.findDOMNode(@refs.repsperformed).value)
+  getOneRm: (weight, reps) ->
+    weight / coefficients[reps]
   liftRow: ->
     React.DOM.tr null,
       React.DOM.td null, @props.lift.date
       React.DOM.td null, @props.lift.liftname
-      React.DOM.td null, @props.lift.weightlifted
       React.DOM.td null, @props.lift.ismetric.toString()
+      React.DOM.td null, @props.lift.weightlifted
       React.DOM.td null, @props.lift.repsperformed
       React.DOM.td null, @props.lift.onerm
       React.DOM.td null,
@@ -64,12 +73,6 @@
       React.DOM.td null,
         React.DOM.input
           className: 'form-control'
-          type: 'number'
-          defaultValue: @props.lift.weightlifted
-          ref: 'weightlifted'
-      React.DOM.td null,
-        React.DOM.input
-          className: 'form-control'
           type: 'boolean'
           defaultValue: @props.lift.ismetric
           ref: 'ismetric'
@@ -77,14 +80,20 @@
         React.DOM.input
           className: 'form-control'
           type: 'number'
-          defaultValue: @props.lift.repsperformed
-          ref: 'repsperformed'
+          defaultValue: @props.lift.weightlifted
+          ref: 'weightlifted'
+          onChange: @reCalculateOneRm
       React.DOM.td null,
         React.DOM.input
           className: 'form-control'
           type: 'number'
-          defaultValue: @props.lift.onerm
-          ref: 'onerm'
+          min: 1
+          max: 10
+          defaultValue: @props.lift.repsperformed
+          ref: 'repsperformed'
+          onChange: @reCalculateOneRm
+      React.DOM.td null,
+        @state.onerm
       React.DOM.td null,
         React.DOM.a
           className: 'btn btn-primary'
