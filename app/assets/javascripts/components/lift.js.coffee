@@ -39,7 +39,10 @@ coefficients = {
   reCalculateOneRm: ->
     @setState onerm: @getOneRm( ReactDOM.findDOMNode(@refs.weightlifted).value, ReactDOM.findDOMNode(@refs.repsperformed).value)
   getOneRm: (weight, reps) ->
-    weight / coefficients[reps]
+    if weight and reps > 0 and reps < 11
+      weight / coefficients[reps]
+    else
+      0
   toggleUnit: (e) ->
     e.preventDefault()
     @setState ismetric: !@state.ismetric
