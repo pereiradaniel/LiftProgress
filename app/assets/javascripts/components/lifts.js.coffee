@@ -12,6 +12,10 @@
     index = lifts.indexOf lift
     lifts.splice index, 1
     @replaceState lifts: lifts
+  updateLift: (lift, data) ->
+    index = @state.lifts.indexOf lift
+    lifts = React.addons.update(@state.lifts, { $splice: [[index, 1, data]] })
+    @replaceState lifts: lifts
   render: ->
     React.DOM.div
       className: 'lifts'
@@ -32,4 +36,4 @@
             React.DOM.th null, 'Actions'
         React.DOM.tbody null,
        	 for lift in @state.lifts
-       	 	React.createElement Lift, key: lift.id, lift: lift, handleDeleteLift: @deleteLift
+       	 	React.createElement Lift, key: lift.id, lift: lift, handleDeleteLift: @deleteLift, handleEditLift: @updateLift

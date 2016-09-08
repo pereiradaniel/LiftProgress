@@ -15,12 +15,12 @@
   handleEdit: (e) ->
     e.preventDefault()
     data =
-      date: React.findDOMNode(@refs.date).value
-      liftname: React.findDOMNode(@refs.liftname).value
-      weightlifted: React.findDOMNode(@refs.weightlifted).value
-      ismetric: React.findDOMNode(@refs.ismetric).value
-      repsperformed: React.findDOMNode(@refs.repsperformed).value
-      onerm: React.findDOMNode(@refs.onerm).value
+      date: ReactDOM.findDOMNode(@refs.date).value
+      liftname: ReactDOM.findDOMNode(@refs.liftname).value
+      weightlifted: ReactDOM.findDOMNode(@refs.weightlifted).value
+      ismetric: ReactDOM.findDOMNode(@refs.ismetric).value
+      repsperformed: ReactDOM.findDOMNode(@refs.repsperformed).value
+      onerm: ReactDOM.findDOMNode(@refs.onerm).value
     $.ajax
       method: 'PUT'
       url: "/lifts/#{ @props.lift.id }"
