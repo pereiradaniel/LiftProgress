@@ -29,10 +29,10 @@
           React.DOM.tr null,
             React.DOM.th null, 'Date'
             React.DOM.th null, 'Lift Name'
-            React.DOM.th null, 'Metric?'
             React.DOM.th null, 'Weight Lifted'
             React.DOM.th null, 'Reps Performed'
             React.DOM.th null, '1 RM'
+            React.DOM.th null, 'Metric?'
             React.DOM.th null, 'Actions'
         React.DOM.tbody null,
        	 for lift in @state.lifts
